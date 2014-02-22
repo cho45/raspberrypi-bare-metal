@@ -1,0 +1,88 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x0000000000008000 0x0000000000010000
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD vectors.o
+LOAD main.o
+
+.text           0x0000000000008000       0xcc
+ *(.text*)
+ .text          0x0000000000008000       0x20 vectors.o
+                0x0000000000008000                _start
+                0x000000000000800c                PUT32
+                0x0000000000008014                GET32
+                0x000000000000801c                dummy
+ .text          0x0000000000008020       0xac main.o
+                0x0000000000008020                notmain
+
+.data           0x00000000000080cc        0x0
+ .data          0x00000000000080cc        0x0 vectors.o
+ .data          0x00000000000080cc        0x0 main.o
+
+.igot.plt       0x00000000000080cc        0x0
+ .igot.plt      0x0000000000000000        0x0 vectors.o
+
+.glue_7         0x00000000000080cc        0x0
+ .glue_7        0x0000000000000000        0x0 linker stubs
+
+.glue_7t        0x00000000000080cc        0x0
+ .glue_7t       0x0000000000000000        0x0 linker stubs
+
+.vfp11_veneer   0x00000000000080cc        0x0
+ .vfp11_veneer  0x0000000000000000        0x0 linker stubs
+
+.v4_bx          0x00000000000080cc        0x0
+ .v4_bx         0x0000000000000000        0x0 linker stubs
+
+.iplt           0x00000000000080cc        0x0
+ .iplt          0x0000000000000000        0x0 vectors.o
+
+.rel.dyn        0x00000000000080cc        0x0
+ .rel.iplt      0x0000000000000000        0x0 vectors.o
+
+.bss            0x00000000000080cc        0x0
+ *(.bss*)
+ .bss           0x00000000000080cc        0x0 vectors.o
+ .bss           0x00000000000080cc        0x0 main.o
+LOAD /Users/cho45/arm-cs-tools/arm-none-eabi/lib//libc.a
+LOAD /Users/cho45/arm-cs-tools/arm-none-eabi/lib//libm.a
+LOAD /Users/cho45/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.3/libgcc.a
+OUTPUT(main.elf elf32-littlearm)
+
+.ARM.attributes
+                0x0000000000000000       0x38
+ .ARM.attributes
+                0x0000000000000000       0x28 vectors.o
+ .ARM.attributes
+                0x0000000000000028       0x3c main.o
+
+.comment        0x0000000000000000       0x60
+ .comment       0x0000000000000000       0x60 main.o
+                                         0x61 (size before relaxing)
+
+.debug_info     0x0000000000000000       0x64
+ .debug_info    0x0000000000000000       0x64 main.o
+
+.debug_abbrev   0x0000000000000000       0x5c
+ .debug_abbrev  0x0000000000000000       0x5c main.o
+
+.debug_loc      0x0000000000000000       0x2c
+ .debug_loc     0x0000000000000000       0x2c main.o
+
+.debug_aranges  0x0000000000000000       0x20
+ .debug_aranges
+                0x0000000000000000       0x20 main.o
+
+.debug_line     0x0000000000000000       0x54
+ .debug_line    0x0000000000000000       0x54 main.o
+
+.debug_str      0x0000000000000000       0x54
+ .debug_str     0x0000000000000000       0x54 main.o
+
+.debug_frame    0x0000000000000000       0x2c
+ .debug_frame   0x0000000000000000       0x2c main.o
